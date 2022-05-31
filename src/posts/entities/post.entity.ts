@@ -4,8 +4,7 @@ export class Post {
     id: string
     author: User;
     content: string
-    createdate: Date;
-    updatedat: Date;
+    createDate: Date;
     comments: Post[];
     parent: Post;
 }
