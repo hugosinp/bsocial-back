@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User, UserDocument } from './schema/users.schema';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const hashed = await bcrypt.hash(createUserDto.password, 10);
+
+    try {
+      return await this.userModel.create({
+        ...createUserDto,
+        password: hashed,
+      });
+    } catch (error) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: error.errors,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.userModel.find({}, ['username', 'email', 'roles']);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username: string) {
+    return await this.userModel.findOne({ username: username }, [
+      'username',
+      'password',
+      'email',
+      'roles',
+    ]);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(username: string, updateUserDto: UpdateUserDto) {
+    return await this.userModel.updateOne(
+      { username: username },
+      updateUserDto,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(username: string) {
+    return await this.userModel.deleteOne({ username: username });
   }
 }
