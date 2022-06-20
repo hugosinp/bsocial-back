@@ -16,10 +16,7 @@ export class Post {
     @Prop({ default: Date.now(), required: true })
     createDate: Date;
 
-    @Prop()
-    comments: Post[];
-
-    @Prop()
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
     parent: Post;
 
 }
