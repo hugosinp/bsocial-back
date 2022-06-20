@@ -17,9 +17,6 @@ export class Post {
     createDate: Date;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
-    comments: Post[];
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
     parent: Post;
 
 }

@@ -1,15 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { Message, MessageDocument } from './schema/messages.schema';
 
 @Injectable()
 export class MessagesService {
-  create(createMessageDto: CreateMessageDto) {
-    return 'This action adds a new message';
-  }
+  constructor(@InjectModel(Message.name) private messageModel: Model<MessageDocument>) {}
 
-  findAll() {
-    return `This action returns all messages`;
+  async create(createMessageDto: CreateMessageDto) {
+    try {
+      return await this.messageModel.create({
+        ...createMessageDto,
+      });
+    } catch (error) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: error.errors,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+  async findAll() {
+    return await this.messageModel.find();
   }
 
   findOne(id: number) {
