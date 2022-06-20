@@ -29,8 +29,8 @@ export class PostsService {
     return await this.postModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(id: string) {
+    return await this.postModel.findOne({ id: id });
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {
