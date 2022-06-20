@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { UserEntity } from 'src/users/entities/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post, PostDocument } from './schema/posts.schema';
@@ -9,9 +10,10 @@ import { Post, PostDocument } from './schema/posts.schema';
 export class PostsService {
   constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) {}
 
-  async create(createPostDto: CreatePostDto) {
+  async create(user: UserEntity, createPostDto: CreatePostDto) {
     try {
       return await this.postModel.create({
+        author: user,
         ...createPostDto,
       });
     } catch (error) {
