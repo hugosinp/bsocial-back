@@ -32,7 +32,7 @@ export class PostsService {
   }
 
   async findOne(id: string) {
-    return await this.postModel.findOne({ id: id });
+    return await this.postModel.findOne({ _id: id });
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {
