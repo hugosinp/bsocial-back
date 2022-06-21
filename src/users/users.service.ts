@@ -33,12 +33,22 @@ export class UsersService {
     return await this.userModel.find({}, ['username', 'email', 'roles']);
   }
 
-  async findOne(username: string) {
+  async findOnePrivate(username: string) {
     return await this.userModel.findOne({ username: username }, [
+      'firstname',
+      'lastname',
       'username',
       'password',
       'email',
       'roles',
+    ]);
+  }
+
+  async findOnePublic(username: string) {
+    return await this.userModel.findOne({ username: username }, [
+      'firstname',
+      'lastname',
+      'username',
     ]);
   }
 

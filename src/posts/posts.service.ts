@@ -28,7 +28,11 @@ export class PostsService {
   }
 
   async findAll() {
-    return await this.postModel.find();
+    return await this.postModel.find().populate("author", [
+      'firstname',
+      'lastname',
+      'username',
+    ]);
   }
 
   async findOne(id: string) {
