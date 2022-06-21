@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -27,15 +27,15 @@ export class PostsService {
     }
   }
 
-  async findAll() {
-    return await this.postModel.find({ parent : {$exists: false } }).populate("author", [
+  async findAll(): Promise<Post[]> {
+    return await this.postModel.find({ parent : {$exists: true } }).sort("-createDate").populate("author", [
       'firstname',
       'lastname',
       'username',
     ]);
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Post> {
     const post = await this.postModel.aggregate()
       .match({ $expr : { $eq: [ '$_id' , { $toObjectId: id } ] } })
       .lookup({
@@ -60,12 +60,11 @@ export class PostsService {
     return post[0];
   }
 
-
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async update(id: string, updatePostDto: UpdatePostDto) {
+    return await this.postModel.updateOne({ _id: id }, { ...updatePostDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  async remove(id: string) {
+    return await this.postModel.deleteOne({ _id: id });
   }
 }
