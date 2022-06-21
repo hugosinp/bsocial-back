@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -28,7 +28,7 @@ export class PostsService {
   }
 
   async findAll() {
-    return await this.postModel.find().populate("author", [
+    return await this.postModel.find({ parent : {$exists: false } }).populate("author", [
       'firstname',
       'lastname',
       'username',
@@ -36,12 +36,28 @@ export class PostsService {
   }
 
   async findOne(id: string) {
-    return await this.postModel.findOne({ _id: id }).populate("author", [
-      'firstname',
-      'lastname',
-      'username',
-    ]);
+    const post = await this.postModel.aggregate()
+      .match({ $expr : { $eq: [ '$_id' , { $toObjectId: id } ] } })
+      .lookup({
+        from: "posts",
+        localField: "_id",
+        foreignField: "parent",
+        as: "comments"
+      });
+
+    await this.postModel.populate(post, {
+      path: "author",
+      model: "User",
+    })
+
+    await this.postModel.populate(post, {
+      path: "comments.author",
+      model: "User",
+    })
+    
+    return post;
   }
+
 
   update(id: number, updatePostDto: UpdatePostDto) {
     return `This action updates a #${id} post`;
