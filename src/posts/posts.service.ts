@@ -36,7 +36,11 @@ export class PostsService {
   }
 
   async findOne(id: string) {
-    return await this.postModel.findOne({ _id: id });
+    return await this.postModel.findOne({ _id: id }).populate("author", [
+      'firstname',
+      'lastname',
+      'username',
+    ]);
   }
 
   update(id: number, updatePostDto: UpdatePostDto) {
