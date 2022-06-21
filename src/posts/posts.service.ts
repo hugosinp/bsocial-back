@@ -48,14 +48,16 @@ export class PostsService {
     await this.postModel.populate(post, {
       path: "author",
       model: "User",
+      select: "firstname lastname username"
     })
 
     await this.postModel.populate(post, {
       path: "comments.author",
       model: "User",
+      select: "firstname lastname username"
     })
     
-    return post;
+    return post[0];
   }
 
 
