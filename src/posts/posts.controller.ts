@@ -19,22 +19,30 @@ export class PostsController {
     return this.postsService.create(user, createPostDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.postsService.findAll();
   }
 
-  @Get(':id')
+  @Get('all/:id')
   findOne(@Param('id') id: string) {
     return this.postsService.findOne(id);
   }
 
-  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @Get('user-posts')
+  findUserPosts(
+    @User() user: UserEntity,
+  ) {
+    return this.postsService.findUserPosts(user);
+  }
+
+  @Patch('all/:id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postsService.update(id, updatePostDto);
   }
 
-  @Delete(':id')
+  @Delete('all/:id')
   remove(@Param('id') id: string) {
     return this.postsService.remove(id);
   }

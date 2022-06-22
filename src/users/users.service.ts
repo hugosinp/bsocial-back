@@ -49,6 +49,7 @@ export class UsersService {
       'firstname',
       'lastname',
       'username',
+      'email'
     ]);
   }
 

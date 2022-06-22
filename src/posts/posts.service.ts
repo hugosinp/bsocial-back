@@ -60,6 +60,15 @@ export class PostsService {
     return post[0];
   }
 
+  async findUserPosts(user: UserEntity) {
+    return await this.postModel.find({ author: user }).sort("-createDate").populate("author", [
+      'firstname',
+      'lastname',
+      'username',
+      'email'
+    ]);
+  }
+
   async update(id: string, updatePostDto: UpdatePostDto) {
     return await this.postModel.updateOne({ _id: id }, { ...updatePostDto });
   }
