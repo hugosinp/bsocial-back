@@ -16,6 +16,9 @@ export class Post {
     @Prop({ default: Date.now(), required: true })
     createDate: Date;
 
+    @Prop()
+    likesCount: number;
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
     parent: Post;
 

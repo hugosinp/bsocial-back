@@ -26,6 +26,7 @@ import { User, UserSchema } from 'src/users/schema/users.schema';
     ]),
   ],
   controllers: [PostsController],
-  providers: [PostsService, UsersService]
+  providers: [PostsService, UsersService],
+  exports: [PostsService]
 })
 export class PostsModule {}

@@ -7,6 +7,7 @@ import { MessagesModule } from './messages/messages.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
 	imports: [
@@ -15,7 +16,8 @@ import { AuthModule } from './auth/auth.module';
 		UsersModule, 
 		PostsModule, 
 		MessagesModule,
-		AuthModule
+		AuthModule,
+		LikesModule
 	],
 	controllers: [AppController],
 	providers: [AppService],

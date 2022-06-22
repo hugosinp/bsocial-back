@@ -1,4 +1,4 @@
-import { Post } from "src/posts/entities/post.entity";
+import { PostEntity } from "src/posts/entities/post.entity";
 
 export class UserEntity {
     id: string;
@@ -8,5 +8,5 @@ export class UserEntity {
     email: string;
     password: string;
     roles: string[];
-    posts: Post[];
+    posts: PostEntity[];
 }
