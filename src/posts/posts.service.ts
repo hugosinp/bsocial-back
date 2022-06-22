@@ -2,13 +2,17 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { User, UserDocument } from 'src/users/schema/users.schema';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post, PostDocument } from './schema/posts.schema';
 
 @Injectable()
 export class PostsService {
-  constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) {}
+  constructor(
+    @InjectModel(Post.name) private postModel: Model<PostDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>
+  ) {}
 
   async create(user: UserEntity, createPostDto: CreatePostDto) {
     try {
@@ -60,7 +64,8 @@ export class PostsService {
     return post[0];
   }
 
-  async findUserPosts(user: UserEntity) {
+  async findUserPosts(username: string) {
+    const user = await this.userModel.find({ username: username });
     return await this.postModel.find({ author: user }).sort("-createDate").populate("author", [
       'firstname',
       'lastname',

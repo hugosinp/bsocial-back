@@ -3,6 +3,8 @@ import { PostsService } from './posts.service';
 import { PostsController } from './posts.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Post, PostSchema } from './schema/posts.schema';
+import { UsersService } from 'src/users/users.service';
+import { User, UserSchema } from 'src/users/schema/users.schema';
 
 @Module({
   imports: [
@@ -14,9 +16,16 @@ import { Post, PostSchema } from './schema/posts.schema';
           return schema;
         },
       },
+      {
+        name: User.name,
+        useFactory: () => {
+          const schema = UserSchema;
+          return schema;
+        },
+      },
     ]),
   ],
   controllers: [PostsController],
-  providers: [PostsService]
+  providers: [PostsService, UsersService]
 })
 export class PostsModule {}
