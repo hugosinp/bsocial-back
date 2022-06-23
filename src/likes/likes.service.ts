@@ -9,12 +9,10 @@ import { Like, LikeDocument } from './schema/likes.schema';
 
 @Injectable()
 export class LikesService {
-	constructor(@InjectModel(Like.name) private likeModel: Model<LikeDocument>, @InjectModel(Post.name) private postModel: Model<PostDocument>) {}
+	constructor(@InjectModel(Like.name) private likeModel: Model<LikeDocument>, @InjectModel(Post.name) private postModel: Model<PostDocument>) { }
 
 	async create(user: UserEntity, createLikeDto: CreateLikeDto) {
 		try {
-			await this.postModel.updateOne({ _id: createLikeDto.post }, { $inc: { likesCount: 1 } });
-
 			return await this.likeModel.create({
 				user: user,
 				...createLikeDto,
@@ -36,6 +34,10 @@ export class LikesService {
 
 	findOne(id: number) {
 		return `This action returns a #${id} like`;
+	}
+
+	async getPostLikes(postId: string) {
+		return await this.likeModel.count({ post: postId });
 	}
 
 	update(id: number, updateLikeDto: UpdateLikeDto) {
