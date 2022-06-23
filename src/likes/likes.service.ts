@@ -13,10 +13,19 @@ export class LikesService {
 
 	async create(user: UserEntity, createLikeDto: CreateLikeDto) {
 		try {
-			return await this.likeModel.create({
-				user: user,
-				...createLikeDto,
-			});
+
+			if (await this.likeModel.exists({ user: user, post: createLikeDto.post })) {
+				await this.remove(user, createLikeDto.post);
+				return 0;
+			} else {
+				await this.likeModel.create({
+					user: user,
+					...createLikeDto,
+				});
+
+				return 1;
+			}
+
 		} catch (error) {
 			throw new HttpException(
 				{
