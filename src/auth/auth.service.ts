@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-	constructor(private usersService: UsersService, private jwtService: JwtService) {}
+	constructor(private usersService: UsersService, private jwtService: JwtService) { }
 
 	async validateUser(username: string, pass: string): Promise<any> {
 		const user = await this.usersService.findOnePrivate(username);
@@ -22,6 +22,7 @@ export class AuthService {
 		const payload = { username: user.username };
 		return {
 			accessToken: this.jwtService.sign(payload),
+			username: user.username
 		};
 	}
 }
