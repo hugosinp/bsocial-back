@@ -19,7 +19,7 @@ export class PostsController {
     return this.postsService.create(user, createPostDto);
   }
 
-  @Get('')
+  @Get()
   findAll() {
     return this.postsService.findAll();
   }

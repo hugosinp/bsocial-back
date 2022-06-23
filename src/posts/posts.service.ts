@@ -32,7 +32,7 @@ export class PostsService {
   }
 
   async findAll(): Promise<Post[]> {
-    return await this.postModel.find({ parent : {$exists: true } }).sort("-createDate").populate("author", [
+    return await this.postModel.find({ parent : {$exists: false } }).sort("-createDate").populate("author", [
       'firstname',
       'lastname',
       'username',
