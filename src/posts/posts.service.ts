@@ -18,6 +18,7 @@ export class PostsService {
     try {
       return await this.postModel.create({
         author: user,
+        createDate: new Date(),
         ...createPostDto,
       });
     } catch (error) {

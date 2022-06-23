@@ -13,8 +13,8 @@ export class Post {
     @Prop({ required: true })
     content: string;
 
-    @Prop({ default: Date.now(), required: true })
-    createDate: Date;
+    @Prop({ required: true })
+    createDate: String;
 
     @Prop()
     likesCount: number;
