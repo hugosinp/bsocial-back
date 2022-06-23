@@ -8,59 +8,44 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+	constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const hashed = await bcrypt.hash(createUserDto.password, 10);
+	async create(createUserDto: CreateUserDto): Promise<User> {
+		const hashed = await bcrypt.hash(createUserDto.password, 10);
 
-    try {
-      return await this.userModel.create({
-        ...createUserDto,
-        password: hashed,
-      });
-    } catch (error) {
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: error.errors,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-  }
+		try {
+			return await this.userModel.create({
+				...createUserDto,
+				password: hashed,
+			});
+		} catch (error) {
+			throw new HttpException(
+				{
+					statusCode: HttpStatus.BAD_REQUEST,
+					message: error.errors,
+				},
+				HttpStatus.BAD_REQUEST
+			);
+		}
+	}
 
-  async findAll() {
-    return await this.userModel.find({}, ['username', 'email', 'roles']);
-  }
+	async findAll() {
+		return await this.userModel.find({}, ['username', 'email', 'roles']);
+	}
 
-  async findOnePrivate(username: string) {
-    return await this.userModel.findOne({ username: username }, [
-      'firstname',
-      'lastname',
-      'username',
-      'password',
-      'email',
-      'roles',
-    ]);
-  }
+	async findOnePrivate(username: string) {
+		return await this.userModel.findOne({ username: username }, ['firstname', 'lastname', 'username', 'password', 'email', 'roles']);
+	}
 
-  async findOnePublic(username: string) {
-    return await this.userModel.findOne({ username: username }, [
-      'firstname',
-      'lastname',
-      'username',
-      'email'
-    ]);
-  }
+	async findOnePublic(username: string) {
+		return await this.userModel.findOne({ username: username }, ['firstname', 'lastname', 'username', 'email']);
+	}
 
-  async update(username: string, updateUserDto: UpdateUserDto) {
-    return await this.userModel.updateOne(
-      { username: username },
-      updateUserDto,
-    );
-  }
+	async update(username: string, updateUserDto: UpdateUserDto) {
+		return await this.userModel.updateOne({ username: username }, updateUserDto);
+	}
 
-  async remove(username: string) {
-    return await this.userModel.deleteOne({ username: username });
-  }
+	async remove(username: string) {
+		return await this.userModel.deleteOne({ username: username });
+	}
 }

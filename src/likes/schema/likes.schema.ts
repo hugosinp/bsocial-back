@@ -7,12 +7,11 @@ export type LikeDocument = Like & Document;
 
 @Schema()
 export class Like {
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true })
+	post: Post;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true })
-    post: Post;
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-    user: User;
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+	user: User;
 }
 
 export const LikeSchema = SchemaFactory.createForClass(Like);

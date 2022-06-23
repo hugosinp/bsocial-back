@@ -12,12 +12,12 @@ import { LikesModule } from './likes/likes.module';
 @Module({
 	imports: [
 		ConfigModule.forRoot(),
-    	MongooseModule.forRoot(process.env.DATABASE_URL),
-		UsersModule, 
-		PostsModule, 
+		MongooseModule.forRoot(process.env.DATABASE_URL),
+		UsersModule,
+		PostsModule,
 		MessagesModule,
 		AuthModule,
-		LikesModule
+		LikesModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

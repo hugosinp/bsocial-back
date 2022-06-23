@@ -6,22 +6,20 @@ export type PostDocument = Post & Document;
 
 @Schema()
 export class Post {
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+	author: User;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-    author: User;
+	@Prop({ required: true })
+	content: string;
 
-    @Prop({ required: true })
-    content: string;
+	@Prop({ required: true })
+	createDate: Date;
 
-    @Prop({ required: true })
-    createDate: Date;
+	@Prop()
+	likesCount: number;
 
-    @Prop()
-    likesCount: number;
-
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
-    parent: Post;
-
+	@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
+	parent: Post;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

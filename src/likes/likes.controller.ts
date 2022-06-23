@@ -8,38 +8,32 @@ import { User } from 'src/auth/decorators/users.decorators';
 
 @Controller('likes')
 export class LikesController {
-  constructor(private readonly likesService: LikesService) {}
+	constructor(private readonly likesService: LikesService) { }
 
-  @UseGuards(JwtAuthGuard)
-  @Post()
-  create(
-    @User() user: UserEntity,
-    @Body() createLikeDto: CreateLikeDto
-  ) {
-    return this.likesService.create(user, createLikeDto);
-  }
+	@UseGuards(JwtAuthGuard)
+	@Post()
+	create(@User() user: UserEntity, @Body() createLikeDto: CreateLikeDto) {
+		return this.likesService.create(user, createLikeDto);
+	}
 
-  @Get()
-  findAll() {
-    return this.likesService.findAll();
-  }
+	@Get()
+	findAll() {
+		return this.likesService.findAll();
+	}
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.likesService.findOne(+id);
-  }
+	@Get(':id')
+	findOne(@Param('id') id: string) {
+		return this.likesService.findOne(+id);
+	}
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLikeDto: UpdateLikeDto) {
-    return this.likesService.update(+id, updateLikeDto);
-  }
+	@Patch(':id')
+	update(@Param('id') id: string, @Body() updateLikeDto: UpdateLikeDto) {
+		return this.likesService.update(+id, updateLikeDto);
+	}
 
-  @UseGuards(JwtAuthGuard)
-  @Delete(':id')
-  remove(
-    @User() user: UserEntity,
-    @Param('id') id: string
-  ) {
-    return this.likesService.remove(user, id);
-  }
+	@UseGuards(JwtAuthGuard)
+	@Delete(':id')
+	remove(@User() user: UserEntity, @Param('id') id: string) {
+		return this.likesService.remove(user, id);
+	}
 }

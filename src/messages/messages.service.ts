@@ -7,36 +7,36 @@ import { Message, MessageDocument } from './schema/messages.schema';
 
 @Injectable()
 export class MessagesService {
-  constructor(@InjectModel(Message.name) private messageModel: Model<MessageDocument>) {}
+	constructor(@InjectModel(Message.name) private messageModel: Model<MessageDocument>) {}
 
-  async create(createMessageDto: CreateMessageDto) {
-    try {
-      return await this.messageModel.create({
-        ...createMessageDto,
-      });
-    } catch (error) {
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: error.errors,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-  }
-  async findAll() {
-    return await this.messageModel.find();
-  }
+	async create(createMessageDto: CreateMessageDto) {
+		try {
+			return await this.messageModel.create({
+				...createMessageDto,
+			});
+		} catch (error) {
+			throw new HttpException(
+				{
+					statusCode: HttpStatus.BAD_REQUEST,
+					message: error.errors,
+				},
+				HttpStatus.BAD_REQUEST
+			);
+		}
+	}
+	async findAll() {
+		return await this.messageModel.find();
+	}
 
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
-  }
+	findOne(id: number) {
+		return `This action returns a #${id} message`;
+	}
 
-  update(id: number, updateMessageDto: UpdateMessageDto) {
-    return `This action updates a #${id} message`;
-  }
+	update(id: number, updateMessageDto: UpdateMessageDto) {
+		return `This action updates a #${id} message`;
+	}
 
-  remove(id: number) {
-    return `This action removes a #${id} message`;
-  }
+	remove(id: number) {
+		return `This action removes a #${id} message`;
+	}
 }

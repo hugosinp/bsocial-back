@@ -6,35 +6,35 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+	constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
+	@Post()
+	create(@Body() createUserDto: CreateUserDto) {
+		return this.usersService.create(createUserDto);
+	}
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
+	@Get()
+	findAll() {
+		return this.usersService.findAll();
+	}
 
-  @Get('pv/:username')
-  findOnePrivate(@Param('username') username: string) {
-    return this.usersService.findOnePrivate(username);
-  }
+	@Get('pv/:username')
+	findOnePrivate(@Param('username') username: string) {
+		return this.usersService.findOnePrivate(username);
+	}
 
-  @Get('pb/:username')
-  findOnePublic(@Param('username') username: string) {
-    return this.usersService.findOnePublic(username);
-  }
+	@Get('pb/:username')
+	findOnePublic(@Param('username') username: string) {
+		return this.usersService.findOnePublic(username);
+	}
 
-  @Patch('username')
-  update(@Param('username') username: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(username, updateUserDto);
-  }
+	@Patch('username')
+	update(@Param('username') username: string, @Body() updateUserDto: UpdateUserDto) {
+		return this.usersService.update(username, updateUserDto);
+	}
 
-  @Delete(':username')
-  remove(@Param('username') username: string) {
-    return this.usersService.remove(username);
-  }
+	@Delete(':username')
+	remove(@Param('username') username: string) {
+		return this.usersService.remove(username);
+	}
 }

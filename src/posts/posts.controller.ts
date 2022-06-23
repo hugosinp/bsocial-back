@@ -8,39 +8,36 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+	constructor(private readonly postsService: PostsService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @Post()
-  create(
-    @User() user: UserEntity,
-    @Body() createPostDto: CreatePostDto
-  ) {
-    return this.postsService.create(user, createPostDto);
-  }
+	@UseGuards(JwtAuthGuard)
+	@Post()
+	create(@User() user: UserEntity, @Body() createPostDto: CreatePostDto) {
+		return this.postsService.create(user, createPostDto);
+	}
 
-  @Get()
-  findAll() {
-    return this.postsService.findAll();
-  }
+	@Get()
+	findAll() {
+		return this.postsService.findAll();
+	}
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postsService.findOne(id);
-  }
+	@Get(':id')
+	findOne(@Param('id') id: string) {
+		return this.postsService.findOne(id);
+	}
 
-  @Get('username/:username')
-  findUserPosts(@Param('username') username: string) {
-    return this.postsService.findUserPosts(username);
-  }
+	@Get('username/:username')
+	findUserPosts(@Param('username') username: string) {
+		return this.postsService.findUserPosts(username);
+	}
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(id, updatePostDto);
-  }
+	@Patch(':id')
+	update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+		return this.postsService.update(id, updatePostDto);
+	}
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postsService.remove(id);
-  }
+	@Delete(':id')
+	remove(@Param('id') id: string) {
+		return this.postsService.remove(id);
+	}
 }
