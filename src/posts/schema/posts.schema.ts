@@ -14,7 +14,7 @@ export class Post {
     content: string;
 
     @Prop({ required: true })
-    createDate: String;
+    createDate: Date;
 
     @Prop()
     likesCount: number;
